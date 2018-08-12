@@ -1,0 +1,55 @@
+*.iml
+.gradle
+/local.properties
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+
+# Generated files
+bin/
+gen/
+# Gradle files
+build/
+
+proguard/
+
+# Log Files
+*.log
+
+# Android Studio Navigation editor temp files
+.navigation/
+
+# Android Studio captures folder
+captures/
+
+.idea/tasks.xml
+.idea/dictionaries
+
+# Keystore files
+*.jks
+
+# Google Services (e.g. APIs or Firebase)
+google-services.json
+
+# Freeline
+freeline.py
+freeline/
+freeline_project_description.json
+
+keystore.properties
+fabric.properties
+app/google-services.json
+
+.idea
+
+# Intellij
+gradle.properties
+# Keystore files
+keystorefiles
+app/debug
+
+app/release
+gradlew
+gradlew.bat
+gradle
