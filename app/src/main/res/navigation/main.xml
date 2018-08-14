@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main.xml"
+    app:startDestination="@id/allCoinsAction">
+
+
+    <fragment
+        android:id="@+id/allCoinsAction"
+        android:name="com.yadaniil.blogchain.ui.allcoins.AllCoinsFragment"
+        android:label="All coins"
+        tools:layout="@layout/all_coins_fragment" />
+    <fragment
+        android:id="@+id/favoritesAction"
+        android:name="com.yadaniil.blogchain.ui.favorites.FavoritesFragment"
+        android:label="Favorites"
+        tools:layout="@layout/favorites_fragment" />
+</navigation>

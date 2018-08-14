@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/homeAction"
+            android:icon="@drawable/ic_home_black_24dp"
+            android:title="@string/home" />
+        <item
+            android:id="@+id/newsAction"
+            android:icon="@drawable/ic_forum_black_24dp"
+            android:title="@string/news" />
+        <item
+            android:id="@+id/allCoinsAction"
+            android:icon="@drawable/ic_format_list_numbered_black_24dp"
+            android:title="@string/all_coins" />
+        <item
+            android:id="@+id/marketInfoAction"
+            android:icon="@drawable/ic_market_info_black_24dp"
+            android:title="@string/market_info" />
+        <item
+            android:id="@+id/converterAction"
+            android:icon="@drawable/ic_converter_black_24dp"
+            android:title="@string/converter" />
+        <item
+            android:id="@+id/favoritesAction"
+            android:icon="@drawable/ic_favorite_black_24dp"
+            android:title="@string/favorites" />
+        <item
+            android:id="@+id/eventsAction"
+            android:icon="@drawable/ic_event_black_24dp"
+            android:title="@string/events" />
+        <item
+            android:id="@+id/portfolioAction"
+            android:icon="@drawable/ic_portfolio_black_24dp"
+            android:title="@string/portfolio" />
+        <item
+            android:id="@+id/exchangesAction"
+            android:icon="@drawable/ic_exchanges_black_24dp"
+            android:title="@string/exchanges" />
+        <item
+            android:id="@+id/icoAction"
+            android:icon="@drawable/ic_ico_black_24dp"
+            android:title="@string/ico" />
+        <item
+            android:id="@+id/miningAction"
+            android:icon="@drawable/ic_mining_black_24dp"
+            android:title="@string/mining" />
+        <item
+            android:id="@+id/settingsAction"
+            android:icon="@drawable/ic_settings_black_24dp"
+            android:title="@string/settings" />
+    </group>
+</menu>

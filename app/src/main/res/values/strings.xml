@@ -1,3 +1,26 @@
 <resources>
     <string name="app_name">Blogchain</string>
+    <string name="all_coins">All coins</string>
+    <string name="home">Home</string>
+    <string name="news">News</string>
+    <string name="market_info">Market info</string>
+    <string name="converter">Converter</string>
+    <string name="favorites">Favorites</string>
+    <string name="events">Events</string>
+    <string name="portfolio">Portfolio</string>
+    <string name="exchanges">Exchanges</string>
+    <string name="ico">ICO</string>
+    <string name="mining">Mining</string>
+    <string name="settings">Settings</string>
+    <string name="title_activity_drawer">DrawerActivity</string>
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_example">Example action</string>
+
+    <string name="action_settings">Settings</string>
 </resources>
