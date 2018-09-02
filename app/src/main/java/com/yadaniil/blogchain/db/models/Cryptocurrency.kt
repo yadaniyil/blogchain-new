@@ -17,12 +17,12 @@ data class Cryptocurrency(
         val maxSupply: Double,
         val lastUpdated: String,
         val dateAdded: String,
-        val price: Double,
-        val volume24h: Double,
-        val marketCap: Double,
-        val percentChange1h: Double,
-        val percentChange24h: Double,
-        val percentChange7d: Double
+        val priceUsd: Double,
+        val volume24hUsd: Double,
+        val marketCapUsd: Double,
+        val percentChange1hUsd: Double,
+        val percentChange24hUsd: Double,
+        val percentChange7dUsd: Double
 )
 
 

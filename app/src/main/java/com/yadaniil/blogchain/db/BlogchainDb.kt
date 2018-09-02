@@ -7,7 +7,7 @@ import com.yadaniil.blogchain.db.models.Cryptocurrency
 
 @Database(
         entities = [Cryptocurrency::class],
-        version = 1,
+        version = 2,
         exportSchema = false
 )
 abstract class BlogchainDb : RoomDatabase() {

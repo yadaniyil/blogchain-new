@@ -2,7 +2,7 @@ package com.yadaniil.blogchain.api.models.cryptocompare
 
 import com.google.gson.annotations.SerializedName
 
-class CryptoCompareCurrenciesListResponse(
+class CcCryptocurrenciesResponse(
         @SerializedName("Response") val response: String?,
         @SerializedName("Message") val message: String?,
         @SerializedName("BaseImageUrl") val baseImageUrl: String?,

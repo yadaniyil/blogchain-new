@@ -2,7 +2,7 @@ package com.yadaniil.blogchain.api.models.coinmarketcap
 
 import com.google.gson.annotations.SerializedName
 
-class CmcCoinsResponse(
+class CmcCryptocurrenciesResponse(
         @SerializedName("status") val status: Status,
         @SerializedName("data") val data: List<CmcCoin>
 ) {

@@ -1,5 +1,6 @@
 package com.yadaniil.blogchain.ui.allcoins
 
+import android.content.Context
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,6 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.yadaniil.blogchain.Application
 import com.yadaniil.blogchain.MainActivity
 
@@ -20,8 +23,10 @@ class AllCoinsFragment : Fragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-
     private lateinit var viewModel: AllCoinsViewModel
+
+    private lateinit var cryptocurrenciesAdapter: CryptocurrenciesAdapter
+    private lateinit var viewManager: RecyclerView.LayoutManager
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -36,10 +41,18 @@ class AllCoinsFragment : Fragment() {
         app_bar.setNavigationIcon(R.drawable.ic_menu_black_24dp)
         app_bar.setNavigationOnClickListener { (activity as MainActivity).openDrawer() }
 
+        viewManager = LinearLayoutManager(activity)
+        cryptocurrenciesAdapter = CryptocurrenciesAdapter(activity as Context)
+        cryptocurrenciesList.apply {
+            setHasFixedSize(true)
+            layoutManager = viewManager
+            adapter = cryptocurrenciesAdapter
+        }
+
         viewModel = ViewModelProviders.of(this, viewModelFactory)
                 .get(AllCoinsViewModel::class.java)
-        viewModel.coins.observe(this, Observer { coins ->
-            Timber.d("Coins size: ${coins.data?.size}")
+        viewModel.observeCoins().observe(this, Observer { coins ->
+            cryptocurrenciesAdapter.submitList(coins.data)
         })
     }
 }

@@ -7,8 +7,11 @@ import com.yadaniil.blogchain.repository.CryptocurrencyRepository
 import com.yadaniil.blogchain.vo.Resource
 import javax.inject.Inject
 
-class AllCoinsViewModel @Inject constructor(cryptocurrencyRepository: CryptocurrencyRepository) : ViewModel() {
+class AllCoinsViewModel
+@Inject constructor(cryptocurrencyRepository: CryptocurrencyRepository) : ViewModel() {
 
-    val coins: LiveData<Resource<List<Cryptocurrency>>> = cryptocurrencyRepository.loadCoins()
+    private val coins: LiveData<Resource<List<Cryptocurrency>>> = cryptocurrencyRepository.loadCryptocurrencies()
+
+    fun observeCoins() = coins
 
 }

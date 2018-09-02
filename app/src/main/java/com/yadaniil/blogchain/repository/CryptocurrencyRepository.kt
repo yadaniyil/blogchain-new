@@ -5,7 +5,9 @@ import com.yadaniil.blogchain.AppExecutors
 import com.yadaniil.blogchain.api.ApiResponse
 import com.yadaniil.blogchain.api.services.CoinMarketCapService
 import com.yadaniil.blogchain.db.dao.CryptocurrencyDao
-import com.yadaniil.blogchain.api.models.coinmarketcap.CmcCoinsResponse
+import com.yadaniil.blogchain.api.models.coinmarketcap.CmcCryptocurrenciesResponse
+import com.yadaniil.blogchain.api.models.cryptocompare.CcCryptocurrenciesResponse
+import com.yadaniil.blogchain.api.services.CryptoCompareService
 import com.yadaniil.blogchain.db.models.Cryptocurrency
 import com.yadaniil.blogchain.vo.Resource
 import javax.inject.Inject
@@ -16,25 +18,26 @@ import javax.inject.Singleton
 class CryptocurrencyRepository @Inject constructor(
         private val appExecutors: AppExecutors,
         private val cryptocurrencyDao: CryptocurrencyDao,
-        @Named("sandbox") private val coinMarketCapService: CoinMarketCapService
+        @Named("sandbox") private val coinMarketCapService: CoinMarketCapService,
+        private val cryptoCompareService: CryptoCompareService
 ) {
 
-    fun loadCoins(): LiveData<Resource<List<Cryptocurrency>>> {
-        return object : NetworkBoundResource<List<Cryptocurrency>, CmcCoinsResponse>(appExecutors) {
-            override fun saveCallResult(item: CmcCoinsResponse) {
+    fun loadCryptocurrencies(): LiveData<Resource<List<Cryptocurrency>>> {
+        return object : NetworkBoundResource<List<Cryptocurrency>, CmcCryptocurrenciesResponse>(appExecutors) {
+            override fun saveCallResult(item: CmcCryptocurrenciesResponse) {
                 val cryprocurrencies = convertResponseToEntities(item)
                 cryptocurrencyDao.insertAll(cryprocurrencies)
             }
 
             override fun shouldFetch(data: List<Cryptocurrency>?): Boolean {
-                return data == null || data.isEmpty()
+                return true
             }
 
             override fun loadFromDb(): LiveData<List<Cryptocurrency>> {
                 return cryptocurrencyDao.getCryptocurrencies()
             }
 
-            override fun createCall(): LiveData<ApiResponse<CmcCoinsResponse>> {
+            override fun createCall(): LiveData<ApiResponse<CmcCryptocurrenciesResponse>> {
                 return coinMarketCapService.getAllCryptocurrencies()
             }
 
@@ -42,9 +45,9 @@ class CryptocurrencyRepository @Inject constructor(
         }.asLiveData()
     }
 
-    fun convertResponseToEntities(cmcCoinsResponse: CmcCoinsResponse): List<Cryptocurrency> {
+    fun convertResponseToEntities(cmcCryptocurrenciesResponse: CmcCryptocurrenciesResponse): List<Cryptocurrency> {
         val cryptocurrencies: MutableList<Cryptocurrency> = ArrayList()
-        cmcCoinsResponse.data.forEach {
+        cmcCryptocurrenciesResponse.data.forEach {
             cryptocurrencies.add(Cryptocurrency(
                     id = it.id,
                     name = it.name,
@@ -57,12 +60,12 @@ class CryptocurrencyRepository @Inject constructor(
                     maxSupply = it.maxSupply,
                     lastUpdated = it.lastUpdated,
                     dateAdded = it.dateAdded,
-                    price = it.quote.usdQuote.price,
-                    volume24h = it.quote.usdQuote.volume24h,
-                    marketCap = it.quote.usdQuote.marketCap,
-                    percentChange1h = it.quote.usdQuote.percentChange1h,
-                    percentChange24h = it.quote.usdQuote.percentChange24h,
-                    percentChange7d = it.quote.usdQuote.percentChange7d
+                    priceUsd = it.quote.usdQuote.price,
+                    volume24hUsd = it.quote.usdQuote.volume24h,
+                    marketCapUsd = it.quote.usdQuote.marketCap,
+                    percentChange1hUsd = it.quote.usdQuote.percentChange1h,
+                    percentChange24hUsd = it.quote.usdQuote.percentChange24h,
+                    percentChange7dUsd = it.quote.usdQuote.percentChange7d
             ))
         }
         return cryptocurrencies
