@@ -36,4 +36,8 @@ object AmountFormatter {
 
     fun formatCryptoPrice(amount: BigDecimal): String =
             buildDecimalFormatter(8, 2).format(amount)
+
+    fun formatPercentage(amount: BigDecimal): String {
+        return buildDecimalFormatter(2, 2).format(amount)
+    }
 }

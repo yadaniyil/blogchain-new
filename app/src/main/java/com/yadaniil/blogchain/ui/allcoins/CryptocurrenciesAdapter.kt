@@ -9,6 +9,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.yadaniil.blogchain.R
 import com.yadaniil.blogchain.db.models.Cryptocurrency
 import com.yadaniil.blogchain.util.AmountFormatter
@@ -48,7 +49,7 @@ class CryptocurrenciesAdapter(private val context: Context)
 //            itemRootLayout.setOnClickListener { onClick.onClick(coinHolder, currencyRealm) }
 //            itemRootLayout.setOnLongClickListener { onLongClick.onLongClick(coinHolder, currencyRealm); true }
                 initRatesChange(this, cryptocurrency)
-//            downloadAndSetIcon(icon, currencyRealm, repo, context)
+                Glide.with(context).load(cryptocurrency.imageLink).into(holder.icon)
             }
         }
     }
@@ -56,9 +57,9 @@ class CryptocurrenciesAdapter(private val context: Context)
     private fun initRatesChange(holder: CryptocurrencyViewHolder,
                                 item: Cryptocurrency) {
         with(holder) {
-            hourChange.text = "${item.percentChange1hUsd} %"
-            dayChange.text = "${item.percentChange24hUsd} %"
-            weekChange.text = "${item.percentChange7dUsd} %"
+            hourChange.text = "${AmountFormatter.formatPercentage(BigDecimal(item.percentChange1hUsd))} %"
+            dayChange.text = "${AmountFormatter.formatPercentage(BigDecimal(item.percentChange24hUsd))} %"
+            weekChange.text = "${AmountFormatter.formatPercentage(BigDecimal(item.percentChange7dUsd))} %"
 
             if (hourChange.text.startsWith("-"))
                 hourChange.setTextColor(context.resources.getColor(R.color.md_red_900))

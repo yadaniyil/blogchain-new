@@ -42,7 +42,7 @@ class AllCoinsViewModel
 
     fun refresh() {
         compositeDisposable.add(
-                repo.loadCryptocurrenciesFromApi()
+                repo.refreshCryptocurrenciesFromApi()
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({

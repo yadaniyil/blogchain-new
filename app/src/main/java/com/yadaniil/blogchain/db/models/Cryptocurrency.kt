@@ -22,7 +22,8 @@ data class Cryptocurrency(
         val marketCapUsd: Double,
         val percentChange1hUsd: Double,
         val percentChange24hUsd: Double,
-        val percentChange7dUsd: Double
+        val percentChange7dUsd: Double,
+        var imageLink: String
 )
 
 
