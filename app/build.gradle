@@ -33,7 +33,7 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0-rc01'
 
     // Google
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0-rc01'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0-rc02'
     implementation 'androidx.appcompat:appcompat:1.0.0-rc01'
     implementation 'com.google.android.material:material:1.0.0-rc01'
     implementation 'androidx.recyclerview:recyclerview:1.0.0-rc01'
@@ -85,8 +85,8 @@ dependencies {
     androidTestImplementation "android.arch.work:work-testing:$work_version"
 
     // Rx
-    implementation 'io.reactivex.rxjava2:rxjava:2.1.8'
-    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.0'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
     implementation 'io.reactivex.rxjava2:rxkotlin:2.2.0'
 
     // Timber

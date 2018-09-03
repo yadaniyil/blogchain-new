@@ -16,7 +16,6 @@ import java.math.BigDecimal
 
 class CryptocurrenciesAdapter(private val context: Context)
     : ListAdapter<Cryptocurrency, CryptocurrenciesAdapter.CryptocurrencyViewHolder>(CryptocurrencyDiffCallback()) {
-//    : RecyclerView.Adapter<CryptocurrenciesAdapter.CryptocurrencyViewHolder>() {
 
     class CryptocurrencyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var itemRootLayout: LinearLayout = view.findViewById(R.id.item_root_layout)

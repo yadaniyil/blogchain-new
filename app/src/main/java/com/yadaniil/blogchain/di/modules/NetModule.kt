@@ -7,7 +7,6 @@ import com.google.gson.GsonBuilder
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import com.yadaniil.blogchain.api.services.*
 import com.yadaniil.blogchain.util.Endpoints
-import com.yadaniil.blogchain.util.LiveDataCallAdapterFactory
 import dagger.Module
 import dagger.Provides
 import okhttp3.Cache
@@ -35,7 +34,7 @@ class NetModule {
                 .readTimeout(1, TimeUnit.MINUTES)
                 .writeTimeout(1, TimeUnit.MINUTES)
                 .cache(cache)
-        clientBuilder.interceptors().add(loggingInterceptor)
+//        clientBuilder.interceptors().add(loggingInterceptor)
         return clientBuilder.build()
     }
 
@@ -66,7 +65,6 @@ class NetModule {
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addCallAdapterFactory(LiveDataCallAdapterFactory())
     }
 
     @Provides

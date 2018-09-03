@@ -1,9 +1,9 @@
 package com.yadaniil.blogchain.api.services
 
-import androidx.lifecycle.LiveData
-import com.yadaniil.blogchain.api.ApiResponse
 import com.yadaniil.blogchain.api.models.coinmarketcap.CmcCryptocurrenciesResponse
 import com.yadaniil.blogchain.util.Endpoints
+import io.reactivex.Observable
+import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Query
@@ -18,5 +18,5 @@ interface CoinMarketCapService {
                                @Query("sort") cmcSortValue: String? = null,
                                @Query("sort_dir") cmcSortDirection: String? = null,
                                @Query("cryptocurrency_type") cmcCryptocurrencyType: String? = null)
-            : LiveData<ApiResponse<CmcCryptocurrenciesResponse>>
+            : Single<CmcCryptocurrenciesResponse>
 }

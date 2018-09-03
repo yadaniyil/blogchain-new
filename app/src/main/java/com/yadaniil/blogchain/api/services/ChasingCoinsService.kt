@@ -1,7 +1,6 @@
 package com.yadaniil.blogchain.api.services
 
 import androidx.lifecycle.LiveData
-import com.yadaniil.blogchain.api.ApiResponse
 import com.yadaniil.blogchain.util.Endpoints
 import retrofit2.http.GET
 

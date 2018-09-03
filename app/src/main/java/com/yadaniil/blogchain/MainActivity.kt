@@ -3,6 +3,7 @@ package com.yadaniil.blogchain
 import android.os.Bundle
 import android.view.Gravity
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import kotlinx.android.synthetic.main.main_activity.*
@@ -17,5 +18,5 @@ class MainActivity : AppCompatActivity() {
         NavigationUI.setupWithNavController(navigation, navController)
     }
 
-    fun openDrawer() = drawer_layout.openDrawer(Gravity.START)
+    fun openDrawer() = drawer_layout.openDrawer(GravityCompat.START)
 }

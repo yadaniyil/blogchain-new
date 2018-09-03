@@ -10,6 +10,7 @@ import com.yadaniil.blogchain.di.modules.ApplicationModule
 import com.yadaniil.blogchain.di.modules.DatabaseModule
 import com.yadaniil.blogchain.di.modules.NetModule
 import com.yadaniil.blogchain.ui.allcoins.AllCoinsFragment
+import com.yadaniil.blogchain.ui.allcoins.AllCoinsViewModel
 import dagger.Component
 import javax.inject.Singleton
 
@@ -27,4 +28,5 @@ interface ApplicationComponent {
 //    fun whatToMineService(): WhatToMineService
 
     fun inject(allCoinsFragment: AllCoinsFragment)
+    fun inject(allCoinsViewModel: AllCoinsViewModel)
 }

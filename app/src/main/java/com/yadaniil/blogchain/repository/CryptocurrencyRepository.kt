@@ -1,51 +1,50 @@
 package com.yadaniil.blogchain.repository
 
-import androidx.lifecycle.LiveData
-import com.yadaniil.blogchain.AppExecutors
-import com.yadaniil.blogchain.api.ApiResponse
-import com.yadaniil.blogchain.api.services.CoinMarketCapService
-import com.yadaniil.blogchain.db.dao.CryptocurrencyDao
 import com.yadaniil.blogchain.api.models.coinmarketcap.CmcCryptocurrenciesResponse
-import com.yadaniil.blogchain.api.models.cryptocompare.CcCryptocurrenciesResponse
+import com.yadaniil.blogchain.api.services.CoinMarketCapService
 import com.yadaniil.blogchain.api.services.CryptoCompareService
+import com.yadaniil.blogchain.db.dao.CryptocurrencyDao
 import com.yadaniil.blogchain.db.models.Cryptocurrency
-import com.yadaniil.blogchain.vo.Resource
+import io.reactivex.Observable
+import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 import javax.inject.Named
 import javax.inject.Singleton
 
 @Singleton
 class CryptocurrencyRepository @Inject constructor(
-        private val appExecutors: AppExecutors,
         private val cryptocurrencyDao: CryptocurrencyDao,
         @Named("sandbox") private val coinMarketCapService: CoinMarketCapService,
         private val cryptoCompareService: CryptoCompareService
 ) {
 
-    fun loadCryptocurrencies(): LiveData<Resource<List<Cryptocurrency>>> {
-        return object : NetworkBoundResource<List<Cryptocurrency>, CmcCryptocurrenciesResponse>(appExecutors) {
-            override fun saveCallResult(item: CmcCryptocurrenciesResponse) {
-                val cryprocurrencies = convertResponseToEntities(item)
-                cryptocurrencyDao.insertAll(cryprocurrencies)
-            }
-
-            override fun shouldFetch(data: List<Cryptocurrency>?): Boolean {
-                return true
-            }
-
-            override fun loadFromDb(): LiveData<List<Cryptocurrency>> {
-                return cryptocurrencyDao.getCryptocurrencies()
-            }
-
-            override fun createCall(): LiveData<ApiResponse<CmcCryptocurrenciesResponse>> {
-                return coinMarketCapService.getAllCryptocurrencies()
-            }
-
-
-        }.asLiveData()
+    fun loadCryptocurrencies(): Single<List<Cryptocurrency>> {
+        return coinMarketCapService.getAllCryptocurrencies()
+                .subscribeOn(Schedulers.io())
+                .map { convertResponseToEntities(it) }
+                .map { storeCryptocurrenciesInDb(it) }
+                .observeOn(AndroidSchedulers.mainThread())
     }
 
-    fun convertResponseToEntities(cmcCryptocurrenciesResponse: CmcCryptocurrenciesResponse): List<Cryptocurrency> {
+    private fun loadCryptocurrenciesFromApi(): Observable<List<Cryptocurrency>> {
+        return coinMarketCapService.getAllCryptocurrencies()
+                .map { convertResponseToEntities(it) }
+                .toObservable()
+                .doOnNext { storeCryptocurrenciesInDb(it) }
+    }
+
+    fun loadCryptocurrenciesFromDb(): List<Cryptocurrency> {
+        return cryptocurrencyDao.getCryptocurrencies().blockingGet()
+    }
+
+    private fun storeCryptocurrenciesInDb(cryptocurrencies: List<Cryptocurrency>): List<Cryptocurrency> {
+        cryptocurrencyDao.insertAll(cryptocurrencies)
+        return cryptocurrencies
+    }
+
+    private fun convertResponseToEntities(cmcCryptocurrenciesResponse: CmcCryptocurrenciesResponse): List<Cryptocurrency> {
         val cryptocurrencies: MutableList<Cryptocurrency> = ArrayList()
         cmcCryptocurrenciesResponse.data.forEach {
             cryptocurrencies.add(Cryptocurrency(
