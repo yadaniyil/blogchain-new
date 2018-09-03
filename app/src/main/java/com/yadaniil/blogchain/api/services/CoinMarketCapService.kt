@@ -18,5 +18,5 @@ interface CoinMarketCapService {
                                @Query("sort") cmcSortValue: String? = null,
                                @Query("sort_dir") cmcSortDirection: String? = null,
                                @Query("cryptocurrency_type") cmcCryptocurrencyType: String? = null)
-            : Single<CmcCryptocurrenciesResponse>
+            : Observable<CmcCryptocurrenciesResponse>
 }

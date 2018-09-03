@@ -8,7 +8,9 @@ import com.yadaniil.blogchain.db.models.Cryptocurrency
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.rxkotlin.toObservable
 import io.reactivex.schedulers.Schedulers
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Named
 import javax.inject.Singleton
@@ -20,27 +22,32 @@ class CryptocurrencyRepository @Inject constructor(
         private val cryptoCompareService: CryptoCompareService
 ) {
 
-    fun loadCryptocurrencies(): Single<List<Cryptocurrency>> {
-        return coinMarketCapService.getAllCryptocurrencies()
+    fun loadCryptocurrencies(): Observable<List<Cryptocurrency>> {
+        return Observable.concatArrayDelayError(
+                loadCryptocurrenciesFromDb(),
+                loadCryptocurrenciesFromApi())
                 .subscribeOn(Schedulers.io())
-                .map { convertResponseToEntities(it) }
-                .map { storeCryptocurrenciesInDb(it) }
                 .observeOn(AndroidSchedulers.mainThread())
     }
 
-    private fun loadCryptocurrenciesFromApi(): Observable<List<Cryptocurrency>> {
+    fun loadCryptocurrenciesFromApi(): Observable<List<Cryptocurrency>> {
         return coinMarketCapService.getAllCryptocurrencies()
                 .map { convertResponseToEntities(it) }
-                .toObservable()
-                .doOnNext { storeCryptocurrenciesInDb(it) }
+                .map { storeCryptocurrenciesInDb(it) }
+
     }
 
-    fun loadCryptocurrenciesFromDb(): List<Cryptocurrency> {
-        return cryptocurrencyDao.getCryptocurrencies().blockingGet()
+    private fun loadCryptocurrenciesFromDb(): Observable<List<Cryptocurrency>> {
+        return cryptocurrencyDao.getCryptocurrencies().toObservable()
     }
 
     private fun storeCryptocurrenciesInDb(cryptocurrencies: List<Cryptocurrency>): List<Cryptocurrency> {
-        cryptocurrencyDao.insertAll(cryptocurrencies)
+        Observable.fromCallable { cryptocurrencyDao.insertAll(cryptocurrencies) }
+                .subscribeOn(Schedulers.io()).subscribe({
+                    Timber.d("${cryptocurrencies.size} cryptocurrencies saved to db")
+                }, {
+                    Timber.d(it.localizedMessage)
+                })
         return cryptocurrencies
     }
 

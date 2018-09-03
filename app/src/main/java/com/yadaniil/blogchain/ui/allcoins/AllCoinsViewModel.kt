@@ -41,6 +41,17 @@ class AllCoinsViewModel
     }
 
     fun refresh() {
-        loadCryptocurrencies()
+        compositeDisposable.add(
+                repo.loadCryptocurrenciesFromApi()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({
+                            coins.value = Resource.success(it)
+                            Timber.d("Cryptocurrencies refreshed")
+                        }, { error ->
+                            coins.value = Resource.error(error.localizedMessage, null)
+                            Timber.e(error.localizedMessage)
+                        })
+        )
     }
 }

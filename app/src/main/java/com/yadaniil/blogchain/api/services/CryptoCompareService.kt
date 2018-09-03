@@ -4,6 +4,7 @@ import com.yadaniil.blogchain.api.models.cryptocompare.CcCryptocurrenciesRespons
 import com.yadaniil.blogchain.api.models.cryptocompare.MinersResponse
 import com.yadaniil.blogchain.util.Endpoints
 import io.reactivex.Observable
+import io.reactivex.Single
 import retrofit2.http.GET
 
 interface CryptoCompareService {

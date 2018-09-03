@@ -53,9 +53,7 @@ class AllCoinsFragment : Fragment() {
             adapter = cryptocurrenciesAdapter
         }
 
-        swipeRefreshList.setOnRefreshListener {
-            viewModel.refresh()
-        }
+        swipeRefreshList.setOnRefreshListener { viewModel.refresh() }
 
         viewModel = ViewModelProviders.of(this, viewModelFactory)
                 .get(AllCoinsViewModel::class.java)
