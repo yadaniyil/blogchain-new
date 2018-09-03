@@ -34,7 +34,7 @@ class NetModule {
                 .readTimeout(1, TimeUnit.MINUTES)
                 .writeTimeout(1, TimeUnit.MINUTES)
                 .cache(cache)
-//        clientBuilder.interceptors().add(loggingInterceptor)
+        clientBuilder.interceptors().add(loggingInterceptor)
         return clientBuilder.build()
     }
 

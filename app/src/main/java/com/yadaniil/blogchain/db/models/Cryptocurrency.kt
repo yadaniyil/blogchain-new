@@ -1,5 +1,6 @@
 package com.yadaniil.blogchain.db.models
 
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
@@ -17,13 +18,9 @@ data class Cryptocurrency(
         val maxSupply: Double,
         val lastUpdated: String,
         val dateAdded: String,
-        val priceUsd: Double,
-        val volume24hUsd: Double,
-        val marketCapUsd: Double,
-        val percentChange1hUsd: Double,
-        val percentChange24hUsd: Double,
-        val percentChange7dUsd: Double,
-        var imageLink: String
+        var imageLink: String,
+        @Embedded(prefix = "usd") val usdQuote: Quote,
+        @Embedded(prefix = "btc") val btcQuote: Quote
 )
 
 

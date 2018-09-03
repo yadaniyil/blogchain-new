@@ -40,12 +40,14 @@ class CryptocurrenciesAdapter(private val context: Context)
     override fun onBindViewHolder(holder: CryptocurrenciesAdapter.CryptocurrencyViewHolder, position: Int) {
         getItem(position).let { cryptocurrency ->
             with(holder) {
+                // TODO Enable ranks after remake cryptocurrency item to constraint layout
+//                rank.text = cryptocurrency.rank.toString()
                 symbol.text = cryptocurrency.symbol
                 name.text = cryptocurrency.name
-                usdRate.text = cryptocurrency.priceUsd.toString()
-                btcRate.text = "1 BTC"
-                usdRate.text = AmountFormatter.formatFiatPrice(BigDecimal(cryptocurrency.priceUsd).toString()) + " USD"
-                btcRate.text = AmountFormatter.formatCryptoPrice(BigDecimal(cryptocurrency.priceUsd).toString()) + " BTC"
+                usdRate.text = AmountFormatter.formatFiatPrice(BigDecimal(
+                        cryptocurrency.usdQuote.price).toString()) + " USD"
+                btcRate.text = AmountFormatter.formatCryptoPrice(BigDecimal(
+                        cryptocurrency.btcQuote.price).toString()) + " BTC"
 //            itemRootLayout.setOnClickListener { onClick.onClick(coinHolder, currencyRealm) }
 //            itemRootLayout.setOnLongClickListener { onLongClick.onLongClick(coinHolder, currencyRealm); true }
                 initRatesChange(this, cryptocurrency)
@@ -57,9 +59,9 @@ class CryptocurrenciesAdapter(private val context: Context)
     private fun initRatesChange(holder: CryptocurrencyViewHolder,
                                 item: Cryptocurrency) {
         with(holder) {
-            hourChange.text = "${AmountFormatter.formatPercentage(BigDecimal(item.percentChange1hUsd))} %"
-            dayChange.text = "${AmountFormatter.formatPercentage(BigDecimal(item.percentChange24hUsd))} %"
-            weekChange.text = "${AmountFormatter.formatPercentage(BigDecimal(item.percentChange7dUsd))} %"
+            hourChange.text = "${AmountFormatter.formatPercentage(BigDecimal(item.usdQuote.percentChange1h))} %"
+            dayChange.text = "${AmountFormatter.formatPercentage(BigDecimal(item.usdQuote.percentChange24h))} %"
+            weekChange.text = "${AmountFormatter.formatPercentage(BigDecimal(item.usdQuote.percentChange7d))} %"
 
             if (hourChange.text.startsWith("-"))
                 hourChange.setTextColor(context.resources.getColor(R.color.md_red_900))
@@ -79,19 +81,6 @@ class CryptocurrenciesAdapter(private val context: Context)
             arrayOf(hourChange, dayChange, weekChange)
                     .filterNot { it.text.startsWith("-") }
                     .forEach { it.text = "+" + it.text }
-
-            if (item.percentChange1hUsd == null) {
-                hourChange.text = "?"
-                hourChange.setTextColor(context.resources.getColor(R.color.md_grey_900))
-            }
-            if (item.percentChange24hUsd == null) {
-                dayChange.text = "?"
-                dayChange.setTextColor(context.resources.getColor(R.color.md_grey_900))
-            }
-            if (item.percentChange7dUsd == null) {
-                weekChange.text = "?"
-                weekChange.setTextColor(context.resources.getColor(R.color.md_grey_900))
-            }
         }
     }
 

@@ -6,6 +6,7 @@ import com.yadaniil.blogchain.api.services.CoinMarketCapService
 import com.yadaniil.blogchain.api.services.CryptoCompareService
 import com.yadaniil.blogchain.db.dao.CryptocurrencyDao
 import com.yadaniil.blogchain.db.models.Cryptocurrency
+import com.yadaniil.blogchain.db.models.Quote
 import com.yadaniil.blogchain.util.Endpoints
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -84,12 +85,17 @@ class CryptocurrencyRepository @Inject constructor(
                     maxSupply = it.maxSupply,
                     lastUpdated = it.lastUpdated,
                     dateAdded = it.dateAdded,
-                    priceUsd = it.quote.usdQuote.price,
-                    volume24hUsd = it.quote.usdQuote.volume24h,
-                    marketCapUsd = it.quote.usdQuote.marketCap,
-                    percentChange1hUsd = it.quote.usdQuote.percentChange1h,
-                    percentChange24hUsd = it.quote.usdQuote.percentChange24h,
-                    percentChange7dUsd = it.quote.usdQuote.percentChange7d,
+                    usdQuote =
+                    Quote(it.quote.usdQuote.price,
+                            it.quote.usdQuote.volume24h, it.quote.usdQuote.marketCap,
+                            it.quote.usdQuote.percentChange1h, it.quote.usdQuote.percentChange24h,
+                            it.quote.usdQuote.percentChange7d),
+
+                    btcQuote =
+                    Quote(it.quote.btcQuote.price,
+                            it.quote.btcQuote.volume24h, it.quote.btcQuote.marketCap,
+                            it.quote.btcQuote.percentChange1h, it.quote.btcQuote.percentChange24h,
+                            it.quote.btcQuote.percentChange7d),
                     imageLink = ""
             ))
         }
