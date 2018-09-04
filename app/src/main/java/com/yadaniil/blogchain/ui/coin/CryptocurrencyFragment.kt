@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
+import com.google.android.material.snackbar.Snackbar
 import com.yadaniil.blogchain.Application
 import com.yadaniil.blogchain.MainActivity
 
@@ -24,12 +25,13 @@ class CryptocurrencyFragment : Fragment() {
     private var cryptocurrencyId: Int = 0
     private var cryptocurrency: Cryptocurrency? = null
     private var favoriteMenuItem: MenuItem? = null
+    private var rootView: View? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.cryptocurrency_fragment, container, false)
+        rootView = inflater.inflate(R.layout.cryptocurrency_fragment, container, false)
         setHasOptionsMenu(true)
-        return view
+        return rootView
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -51,6 +53,13 @@ class CryptocurrencyFragment : Fragment() {
                 addedToFavoritesIcon()
             else
                 removedFromFavoritesIcon()
+        })
+
+        viewModel.addOrRemoveEvent.observe(this, Observer {
+            if (it)
+                Snackbar.make(rootView!!, R.string.added_to_favorites, Snackbar.LENGTH_LONG).show()
+            else
+                Snackbar.make(rootView!!, R.string.removed_from_favorites, Snackbar.LENGTH_LONG).show()
         })
     }
 

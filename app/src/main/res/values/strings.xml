@@ -28,4 +28,6 @@
     <string name="week_price_change">7d:</string>
     <string name="add_remove_to_favorites">Add/Remove to favorites</string>
     <string name="share">Share</string>
+    <string name="added_to_favorites">Added to favorites</string>
+    <string name="removed_from_favorites">Removed from favorites</string>
 </resources>
