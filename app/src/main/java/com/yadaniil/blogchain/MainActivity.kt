@@ -1,9 +1,9 @@
 package com.yadaniil.blogchain
 
 import android.os.Bundle
-import android.view.Gravity
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
+import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import kotlinx.android.synthetic.main.main_activity.*
@@ -15,8 +15,23 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.main_activity)
 
         val navController = findNavController(R.id.container)
+        setSupportActionBar(toolbar)
+        NavigationUI.setupActionBarWithNavController(this, navController, drawerLayout)
         NavigationUI.setupWithNavController(navigation, navController)
     }
 
-    fun openDrawer() = drawer_layout.openDrawer(GravityCompat.START)
+    override fun onSupportNavigateUp(): Boolean {
+        return NavigationUI.navigateUp(drawerLayout,
+                Navigation.findNavController(this, R.id.container))
+    }
+
+    override fun onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START)
+        } else {
+            super.onBackPressed()
+        }
+    }
+
+//    fun openDrawer() = drawerLayout.openDrawer(GravityCompat.START)
 }

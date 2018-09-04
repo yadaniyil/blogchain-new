@@ -10,10 +10,24 @@
         android:id="@+id/allCoinsAction"
         android:name="com.yadaniil.blogchain.ui.allcoins.AllCoinsFragment"
         android:label="All coins"
-        tools:layout="@layout/all_coins_fragment" />
+        tools:layout="@layout/all_coins_fragment" >
+        <action
+            android:id="@+id/action_allCoinsAction_to_cryptocurrencyFragment"
+            app:destination="@id/cryptocurrencyAction" app:popUpTo="@id/allCoinsAction"/>
+    </fragment>
     <fragment
         android:id="@+id/favoritesAction"
         android:name="com.yadaniil.blogchain.ui.favorites.FavoritesFragment"
         android:label="Favorites"
         tools:layout="@layout/favorites_fragment" />
+    <fragment
+        android:id="@+id/cryptocurrencyAction"
+        android:name="com.yadaniil.blogchain.ui.coin.CryptocurrencyFragment"
+        android:label="Crypto"
+        tools:layout="@layout/cryptocurrency_fragment" >
+        <argument
+            android:name="cryptocurrencyId"
+            android:defaultValue="0"
+            app:argType="integer" />
+    </fragment>
 </navigation>

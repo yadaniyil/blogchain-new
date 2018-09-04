@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -81,7 +82,17 @@ class CryptocurrenciesAdapter(private val context: Context)
             arrayOf(hourChange, dayChange, weekChange)
                     .filterNot { it.text.startsWith("-") }
                     .forEach { it.text = "+" + it.text }
+            itemRootLayout.createOnClickListener(item.id)
         }
     }
 
+    private fun View.createOnClickListener(cryptocurrencyId: Int) {
+        val onClick = View.OnClickListener {
+            val direction = AllCoinsFragmentDirections
+                    .actionAllCoinsActionToCryptocurrencyFragment()
+                    .setCryptocurrencyId(cryptocurrencyId)
+            it.findNavController().navigate(direction)
+        }
+        this.setOnClickListener(onClick)
+    }
 }

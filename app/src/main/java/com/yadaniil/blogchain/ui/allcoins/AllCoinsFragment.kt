@@ -12,7 +12,6 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.yadaniil.blogchain.Application
-import com.yadaniil.blogchain.MainActivity
 import com.yadaniil.blogchain.R
 import com.yadaniil.blogchain.db.models.Cryptocurrency
 import com.yadaniil.blogchain.util.gone
@@ -41,9 +40,6 @@ class AllCoinsFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         Application.component?.inject(this)
-
-        app_bar.setNavigationIcon(R.drawable.ic_menu_black_24dp)
-        app_bar.setNavigationOnClickListener { (activity as MainActivity).openDrawer() }
 
         viewManager = LinearLayoutManager(activity)
         cryptocurrenciesAdapter = CryptocurrenciesAdapter(activity as Context)
