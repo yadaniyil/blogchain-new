@@ -32,7 +32,8 @@ class CmcCryptocurrenciesResponse(
 
     data class Quote(
             @SerializedName("USD") var usdQuote: CurrencyQuote,
-            @SerializedName("BTC") var btcQuote: CurrencyQuote
+            @SerializedName("BTC") var btcQuote: CurrencyQuote,
+            @SerializedName("EUR") var eurQuote: CurrencyQuote
     )
 
     data class CurrencyQuote(

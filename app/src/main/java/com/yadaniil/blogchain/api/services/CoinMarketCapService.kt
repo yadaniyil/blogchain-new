@@ -14,7 +14,7 @@ interface CoinMarketCapService {
     @GET(Endpoints.COIN_MARKET_CAP_LATEST_COINS_ENDPOINT)
     fun getAllCryptocurrencies(@Query("start") startOffset: Int = 1,
                                @Query("limit") limit: Int = 5000,
-                               @Query("convert") cmcConvertCurrency: String = "USD,BTC",
+                               @Query("convert") cmcConvertCurrency: String = "USD,BTC,EUR",
                                @Query("sort") cmcSortValue: String? = null,
                                @Query("sort_dir") cmcSortDirection: String? = null,
                                @Query("cryptocurrency_type") cmcCryptocurrencyType: String? = null)

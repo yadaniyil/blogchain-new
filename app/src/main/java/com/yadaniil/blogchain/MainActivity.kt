@@ -33,5 +33,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-//    fun openDrawer() = drawerLayout.openDrawer(GravityCompat.START)
+    fun setToolbarTitle(title: String) {
+        toolbar.title = title
+    }
 }

@@ -3,6 +3,7 @@ package com.yadaniil.blogchain.di.modules
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.yadaniil.blogchain.ui.allcoins.AllCoinsViewModel
+import com.yadaniil.blogchain.ui.coin.CryptocurrencyViewModel
 import com.yadaniil.blogchain.viewmodel.BlogchainViewModelFactory
 import dagger.Binds
 import dagger.Module
@@ -14,6 +15,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(AllCoinsViewModel::class)
     abstract fun bindAllCoinsViewModel(allCoinsViewModel: AllCoinsViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(CryptocurrencyViewModel::class)
+    abstract fun bindCryptocurrencyViewModel(cryptocurrencyViewModel: CryptocurrencyViewModel): ViewModel
 
     @Binds
     abstract fun bindViewModelFactory(factory: BlogchainViewModelFactory): ViewModelProvider.Factory

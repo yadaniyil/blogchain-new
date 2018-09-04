@@ -1,5 +1,7 @@
 package com.yadaniil.blogchain.repository
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.toPublisher
 import com.yadaniil.blogchain.api.models.coinmarketcap.CmcCryptocurrenciesResponse
 import com.yadaniil.blogchain.api.models.cryptocompare.CcCryptocurrenciesResponse
 import com.yadaniil.blogchain.api.services.CoinMarketCapService
@@ -9,10 +11,8 @@ import com.yadaniil.blogchain.db.models.Cryptocurrency
 import com.yadaniil.blogchain.db.models.Quote
 import com.yadaniil.blogchain.util.Endpoints
 import io.reactivex.Observable
-import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.BiFunction
-import io.reactivex.rxkotlin.toObservable
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 import javax.inject.Inject
@@ -72,7 +72,9 @@ class CryptocurrencyRepository @Inject constructor(
 
     private fun convertResponseToEntities(cmcCryptocurrenciesResponse: CmcCryptocurrenciesResponse): List<Cryptocurrency> {
         val cryptocurrencies: MutableList<Cryptocurrency> = ArrayList()
+        val favorites = cryptocurrencyDao.getFavoriteCryptocurrencies().blockingGet()
         cmcCryptocurrenciesResponse.data.forEach {
+            val isFavorite = favorites.any { favorite -> it.symbol == favorite.symbol }
             cryptocurrencies.add(Cryptocurrency(
                     id = it.id,
                     name = it.name,
@@ -96,7 +98,13 @@ class CryptocurrencyRepository @Inject constructor(
                             it.quote.btcQuote.volume24h, it.quote.btcQuote.marketCap,
                             it.quote.btcQuote.percentChange1h, it.quote.btcQuote.percentChange24h,
                             it.quote.btcQuote.percentChange7d),
-                    imageLink = ""
+                    eurQuote =
+                    Quote(it.quote.eurQuote.price,
+                            it.quote.eurQuote.volume24h, it.quote.eurQuote.marketCap,
+                            it.quote.eurQuote.percentChange1h, it.quote.eurQuote.percentChange24h,
+                            it.quote.eurQuote.percentChange7d),
+                    imageLink = "",
+                    isFavorite = isFavorite
             ))
         }
         return cryptocurrencies
@@ -114,5 +122,15 @@ class CryptocurrencyRepository @Inject constructor(
                     Endpoints.CRYPTO_COMPARE_URL + cryptocurrency.imageUrl
         }
         return cmcCoins
+    }
+
+    fun getCryptocurrencyFromDb(id: Int): LiveData<Cryptocurrency> {
+        return cryptocurrencyDao.getCryptocurrencyWithId(id)
+    }
+
+    fun updateCryptocurrency(cryptocurrency: Cryptocurrency) {
+        Timber.d("Updating crypto: ${cryptocurrency.name}. " +
+                "Is favorite: ${cryptocurrency.isFavorite}")
+        cryptocurrencyDao.update(cryptocurrency)
     }
 }

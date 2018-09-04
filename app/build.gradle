@@ -111,6 +111,10 @@ dependencies {
     annotationProcessor 'com.google.dagger:dagger-compiler:2.17'
     kapt 'com.google.dagger:dagger-android-processor:2.17'
     kapt 'com.google.dagger:dagger-compiler:2.17'
+
+    implementation 'com.facebook.stetho:stetho:1.5.0'
+    implementation 'com.facebook.stetho:stetho-okhttp3:1.5.0'
+    implementation 'com.facebook.stetho:stetho-js-rhino:1.5.0'
 }
 
 //apply plugin: 'com.google.gms.google-services'

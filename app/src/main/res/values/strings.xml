@@ -26,4 +26,6 @@
     <string name="hour_price_change">1h:</string>
     <string name="day_price_change">24h:</string>
     <string name="week_price_change">7d:</string>
+    <string name="add_remove_to_favorites">Add/Remove to favorites</string>
+    <string name="share">Share</string>
 </resources>

@@ -1,6 +1,7 @@
 package com.yadaniil.blogchain.di.modules
 
 import android.os.Environment
+import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -34,7 +35,8 @@ class NetModule {
                 .readTimeout(1, TimeUnit.MINUTES)
                 .writeTimeout(1, TimeUnit.MINUTES)
                 .cache(cache)
-        clientBuilder.interceptors().add(loggingInterceptor)
+                .addNetworkInterceptor(StethoInterceptor())
+//        clientBuilder.interceptors().add(loggingInterceptor)
         return clientBuilder.build()
     }
 

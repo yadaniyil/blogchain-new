@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
 
-@Entity(indices = [Index("id"), Index("symbol"), Index("rank")])
+@Entity(indices = [Index("id"), Index("symbol"), Index("rank"), Index("isFavorite")])
 data class Cryptocurrency(
         @PrimaryKey val id: Int,
         val name: String,
@@ -19,8 +19,10 @@ data class Cryptocurrency(
         val lastUpdated: String,
         val dateAdded: String,
         var imageLink: String,
+        var isFavorite: Boolean,
         @Embedded(prefix = "usd") val usdQuote: Quote,
-        @Embedded(prefix = "btc") val btcQuote: Quote
+        @Embedded(prefix = "btc") val btcQuote: Quote,
+        @Embedded(prefix = "eur") val eurQuote: Quote
 )
 
 
