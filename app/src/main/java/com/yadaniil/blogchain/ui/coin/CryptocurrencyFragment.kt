@@ -8,16 +8,16 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
-import com.yadaniil.blogchain.Application
 import com.yadaniil.blogchain.MainActivity
 
 import com.yadaniil.blogchain.R
 import com.yadaniil.blogchain.db.models.Cryptocurrency
+import com.yadaniil.blogchain.di.Injectable
 import com.yadaniil.blogchain.util.AmountFormatter
 import kotlinx.android.synthetic.main.cryptocurrency_fragment.*
 import javax.inject.Inject
 
-class CryptocurrencyFragment : Fragment() {
+class CryptocurrencyFragment : Fragment(), Injectable {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -38,7 +38,6 @@ class CryptocurrencyFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         cryptocurrencyId = CryptocurrencyFragmentArgs.fromBundle(arguments).cryptocurrencyId
 
-        Application.component?.inject(this)
         viewModel = ViewModelProviders.of(this, viewModelFactory)
                 .get(CryptocurrencyViewModel::class.java)
 

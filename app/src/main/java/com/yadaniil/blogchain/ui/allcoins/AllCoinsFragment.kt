@@ -11,9 +11,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.yadaniil.blogchain.Application
 import com.yadaniil.blogchain.R
 import com.yadaniil.blogchain.db.models.Cryptocurrency
+import com.yadaniil.blogchain.di.Injectable
 import com.yadaniil.blogchain.util.gone
 import com.yadaniil.blogchain.util.startRefreshing
 import com.yadaniil.blogchain.util.stopRefreshing
@@ -23,7 +23,7 @@ import com.yadaniil.blogchain.vo.Status
 import kotlinx.android.synthetic.main.all_coins_fragment.*
 import javax.inject.Inject
 
-class AllCoinsFragment : Fragment() {
+class AllCoinsFragment : Fragment(), Injectable {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -38,8 +38,6 @@ class AllCoinsFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
-        Application.component?.inject(this)
 
         viewManager = LinearLayoutManager(activity)
         cryptocurrenciesAdapter = CryptocurrenciesAdapter(activity as Context)

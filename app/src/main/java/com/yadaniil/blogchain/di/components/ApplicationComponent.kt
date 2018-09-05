@@ -1,34 +1,33 @@
 package com.yadaniil.blogchain.di.components
 
 import android.app.Application
-import android.content.Context
-import android.content.SharedPreferences
-import com.yadaniil.blogchain.api.services.*
-import com.yadaniil.blogchain.db.BlogchainDb
-import com.yadaniil.blogchain.db.dao.CryptocurrencyDao
+import com.yadaniil.blogchain.BlogchainApp
 import com.yadaniil.blogchain.di.modules.ApplicationModule
 import com.yadaniil.blogchain.di.modules.DatabaseModule
+import com.yadaniil.blogchain.di.modules.MainActivityModule
 import com.yadaniil.blogchain.di.modules.NetModule
-import com.yadaniil.blogchain.ui.allcoins.AllCoinsFragment
-import com.yadaniil.blogchain.ui.allcoins.AllCoinsViewModel
-import com.yadaniil.blogchain.ui.coin.CryptocurrencyFragment
-import com.yadaniil.blogchain.ui.coin.CryptocurrencyViewModel
+import dagger.BindsInstance
 import dagger.Component
+import dagger.android.AndroidInjectionModule
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [ApplicationModule::class, NetModule::class, DatabaseModule::class])
-interface ApplicationComponent {
-    fun app(): Application
-    fun context(): Context
-//    fun preferences(): SharedPreferences
-//    fun blogchainDb(): BlogchainDb
-//    fun cryptocurrencyDao(): CryptocurrencyDao
-//    fun coinMarketCapService(): CoinMarketCapService
-//    fun cryptoCompareService(): CryptoCompareService
-//    fun cryptoCompareMinService(): CryptoCompareMinService
-//    fun whatToMineService(): WhatToMineService
+@Component(
+        modules = [
+            AndroidInjectionModule::class,
+            ApplicationModule::class,
+            NetModule::class,
+            DatabaseModule::class,
+            MainActivityModule::class]
+)
+interface AppComponent {
+    @Component.Builder
+    interface Builder {
+        @BindsInstance
+        fun application(application: Application): Builder
 
-    fun inject(allCoinsFragment: AllCoinsFragment)
-    fun inject(cryptocurrencyFragment: CryptocurrencyFragment)
+        fun build(): AppComponent
+    }
+
+    fun inject(blogchainApp: BlogchainApp)
 }

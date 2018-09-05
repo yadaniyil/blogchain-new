@@ -1,7 +1,12 @@
 package com.yadaniil.blogchain.ui.favorites
 
-import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModel
+import com.yadaniil.blogchain.repository.CryptocurrencyRepository
+import javax.inject.Inject
 
-class FavoritesViewModel : ViewModel() {
-    // TODO: Implement the ViewModel
+
+class FavoritesViewModel
+@Inject constructor(private val repo: CryptocurrencyRepository) : ViewModel() {
+
+
 }
