@@ -13,11 +13,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.yadaniil.blogchain.R
 import com.yadaniil.blogchain.db.models.Cryptocurrency
+import com.yadaniil.blogchain.ui.CryptocurrencyAdapterDirection
+import com.yadaniil.blogchain.ui.favorites.FavoritesFragmentDirections
 import com.yadaniil.blogchain.util.AmountFormatter
 import java.math.BigDecimal
 
-class CryptocurrenciesAdapter(private val context: Context)
-    : ListAdapter<Cryptocurrency, CryptocurrenciesAdapter.CryptocurrencyViewHolder>(CryptocurrencyDiffCallback()) {
+class CryptocurrenciesAdapter(private val context: Context,
+                              private val direction: CryptocurrencyAdapterDirection)
+    : ListAdapter<Cryptocurrency,
+        CryptocurrenciesAdapter.CryptocurrencyViewHolder>(CryptocurrencyDiffCallback()) {
 
     class CryptocurrencyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var itemRootLayout: LinearLayout = view.findViewById(R.id.item_root_layout)
@@ -49,7 +53,6 @@ class CryptocurrenciesAdapter(private val context: Context)
                         cryptocurrency.usdQuote.price).toString()) + " USD"
                 btcRate.text = AmountFormatter.formatCryptoPrice(BigDecimal(
                         cryptocurrency.btcQuote.price).toString()) + " BTC"
-//            itemRootLayout.setOnClickListener { onClick.onClick(coinHolder, currencyRealm) }
 //            itemRootLayout.setOnLongClickListener { onLongClick.onLongClick(coinHolder, currencyRealm); true }
                 initRatesChange(this, cryptocurrency)
                 Glide.with(context).load(cryptocurrency.imageLink).into(holder.icon)
@@ -88,10 +91,17 @@ class CryptocurrenciesAdapter(private val context: Context)
 
     private fun View.createOnClickListener(cryptocurrencyId: Int) {
         val onClick = View.OnClickListener {
-            val direction = AllCoinsFragmentDirections
-                    .actionAllCoinsActionToCryptocurrencyFragment()
-                    .setCryptocurrencyId(cryptocurrencyId)
-            it.findNavController().navigate(direction)
+            if (direction == CryptocurrencyAdapterDirection.ALL_COINS) {
+                val direction = AllCoinsFragmentDirections
+                        .actionAllCoinsActionToCryptocurrencyFragment()
+                        .setCryptocurrencyId(cryptocurrencyId)
+                it.findNavController().navigate(direction)
+            } else if (direction == CryptocurrencyAdapterDirection.FAVORITE) {
+                val direction = FavoritesFragmentDirections
+                        .actionFavoritesActionToCryptocurrencyAction()
+                        .setCryptocurrencyId(cryptocurrencyId)
+                it.findNavController().navigate(direction)
+            }
         }
         this.setOnClickListener(onClick)
     }

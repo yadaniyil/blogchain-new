@@ -11,6 +11,7 @@ import com.yadaniil.blogchain.db.models.Cryptocurrency
 import com.yadaniil.blogchain.db.models.Quote
 import com.yadaniil.blogchain.util.Endpoints
 import io.reactivex.Observable
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.BiFunction
 import io.reactivex.schedulers.Schedulers
@@ -26,6 +27,7 @@ class CryptocurrencyRepository @Inject constructor(
         private val cryptoCompareService: CryptoCompareService
 ) {
 
+    // Return results from db and then from api
     fun loadCryptocurrencies(): Observable<List<Cryptocurrency>> {
         return Observable.concatArrayDelayError(
                 loadCryptocurrenciesFromDb(),
@@ -133,4 +135,28 @@ class CryptocurrencyRepository @Inject constructor(
                 "Is favorite: ${cryptocurrency.isFavorite}")
         cryptocurrencyDao.update(cryptocurrency)
     }
+
+
+
+    // region Favorites
+    fun loadFavoriteCryptocurrencies(): Observable<List<Cryptocurrency>> {
+        return Observable.concatArrayDelayError(
+                loadFavoriteCryptocurrenciesFromDb(),
+                loadFavoriteCryptocurrenciesFromApi())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    fun loadFavoriteCryptocurrenciesFromDb(): Observable<List<Cryptocurrency>> {
+        return cryptocurrencyDao.getFavoriteCryptocurrencies().toObservable()
+    }
+
+    fun loadFavoriteCryptocurrenciesFromApi(): Observable<List<Cryptocurrency>> {
+        return coinMarketCapService.getAllCryptocurrencies()
+                .map { convertResponseToEntities(it) }
+                .map { storeCryptocurrenciesInDb(it) }
+                .map { cryptocurrencies -> cryptocurrencies.filter { it.isFavorite } }
+    }
+
+    // endregion Favorites
 }

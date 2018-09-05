@@ -10,7 +10,7 @@ interface CryptocurrencyDao {
     @Query("SELECT * FROM cryptocurrency ORDER BY rank")
     fun getCryptocurrencies(): Single<List<Cryptocurrency>>
 
-    @Query("SELECT * FROM cryptocurrency WHERE isFavorite = 1")
+    @Query("SELECT * FROM cryptocurrency WHERE isFavorite = 1 ORDER BY rank")
     fun getFavoriteCryptocurrencies(): Single<List<Cryptocurrency>>
 
     @Query("SELECT * FROM cryptocurrency WHERE symbol = :symbol")

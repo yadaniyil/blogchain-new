@@ -9,11 +9,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.yadaniil.blogchain.R
 import com.yadaniil.blogchain.db.models.Cryptocurrency
 import com.yadaniil.blogchain.di.Injectable
+import com.yadaniil.blogchain.ui.CryptocurrencyAdapterDirection
 import com.yadaniil.blogchain.util.gone
 import com.yadaniil.blogchain.util.startRefreshing
 import com.yadaniil.blogchain.util.stopRefreshing
@@ -40,7 +42,9 @@ class AllCoinsFragment : Fragment(), Injectable {
         super.onActivityCreated(savedInstanceState)
 
         viewManager = LinearLayoutManager(activity)
-        cryptocurrenciesAdapter = CryptocurrenciesAdapter(activity as Context)
+
+        cryptocurrenciesAdapter = CryptocurrenciesAdapter(activity as Context,
+                CryptocurrencyAdapterDirection.ALL_COINS)
         cryptocurrenciesList.apply {
             setHasFixedSize(true)
             layoutManager = viewManager
