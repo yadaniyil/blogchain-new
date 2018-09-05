@@ -131,12 +131,15 @@ class CryptocurrencyRepository @Inject constructor(
     }
 
     fun updateCryptocurrency(cryptocurrency: Cryptocurrency) {
-        Timber.d("Updating crypto: ${cryptocurrency.name}. " +
-                "Is favorite: ${cryptocurrency.isFavorite}")
-        cryptocurrencyDao.update(cryptocurrency)
+        Observable.fromCallable { cryptocurrencyDao.update(cryptocurrency) }
+                .subscribeOn(Schedulers.io())
+                .subscribe({
+            Timber.d("Updated crypto: ${cryptocurrency.name}. " +
+                    "Is favorite: ${cryptocurrency.isFavorite}")
+        }, {
+            Timber.e("Error updating cryptocurrency: ${cryptocurrency.name}. ${it.localizedMessage}")
+        })
     }
-
-
 
     // region Favorites
     fun loadFavoriteCryptocurrencies(): Observable<List<Cryptocurrency>> {

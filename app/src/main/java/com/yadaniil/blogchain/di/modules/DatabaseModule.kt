@@ -17,7 +17,6 @@ class DatabaseModule {
         return Room
                 .databaseBuilder(app, BlogchainDb::class.java, "blogchain.db")
                 .fallbackToDestructiveMigration()
-                .allowMainThreadQueries()
                 .build()
     }
 
