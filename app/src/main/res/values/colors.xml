@@ -9,6 +9,7 @@
     <color name="md_red_900">#F44336</color>
     <color name="md_green_900">#1B5E20</color>
     <color name="md_grey_900">#212121</color>
+    <color name="grey_800">#606060</color>
 
 
 </resources>

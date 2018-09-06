@@ -37,4 +37,18 @@
             android:defaultValue="0"
             app:argType="integer" />
     </fragment>
+    <fragment
+        android:id="@+id/portfolioAction"
+        android:name="com.yadaniil.blogchain.ui.portfolios.PortfoliosFragment"
+        android:label="@string/portfolios"
+        tools:layout="@layout/portfolios_fragment" >
+        <action
+            android:id="@+id/action_portfolioAction_to_addPortfolioFragment"
+            app:destination="@id/addPortfolioFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addPortfolioFragment"
+        android:name="com.yadaniil.blogchain.ui.addportfolio.AddPortfolioFragment"
+        android:label="@string/add_portfolio"
+        tools:layout="@layout/add_portfolio_fragment" />
 </navigation>

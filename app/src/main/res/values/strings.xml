@@ -30,4 +30,10 @@
     <string name="share">Share</string>
     <string name="added_to_favorites">Added to favorites</string>
     <string name="removed_from_favorites">Removed from favorites</string>
+    <string name="no_portfolios">You have no portfolios\nUse button to add</string>
+    <string name="portfolios">Portfolios</string>
+    <string name="add_portfolio">Add portfolio</string>
+    <string name="portfolio_name">Portfolio name</string>
+    <string name="description">Description</string>
+    <string name="required">*Required</string>
 </resources>
